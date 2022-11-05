@@ -1,4 +1,4 @@
-#include "os.h"
+#include <lib9.h>
 #include <libsec.h>
 
 static void encode(uchar*, u32int*, ulong);

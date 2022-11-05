@@ -1,4 +1,4 @@
-#include "os.h"
+#include <lib9.h>
 #include "kernel.h"
 #include <mp.h>
 #include <libsec.h>

@@ -1,4 +1,4 @@
-#include "os.h"
+#include <lib9.h>
 #include <libsec.h>
 
 extern void _sha256block(SHA256state*, uchar*);
