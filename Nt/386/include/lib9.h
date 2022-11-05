@@ -317,51 +317,6 @@ extern	int	enc16(char*, int, uchar*, int);
 extern	int	encodefmt(Fmt*);
 
 /*
- *  synchronization
- */
-typedef
-struct Lock {
-	int	val;
-	int	pid;
-} Lock;
-
-extern int	_tas(int*);
-
-extern	void	lock(Lock*);
-extern	void	unlock(Lock*);
-extern	int	canlock(Lock*);
-
-typedef struct QLock QLock;
-struct QLock
-{
-	Lock	use;			/* to access Qlock structure */
-	Proc	*head;			/* next process waiting for object */
-	Proc	*tail;			/* last process waiting for object */
-	int	locked;			/* flag */
-};
-
-extern	void	qlock(QLock*);
-extern	void	qunlock(QLock*);
-extern	int	canqlock(QLock*);
-extern	void	_qlockinit(ulong (*)(ulong, ulong));	/* called only by the thread library */
-
-typedef
-struct RWLock
-{
-	Lock	l;			/* Lock modify lock */
-	QLock	x;			/* Mutual exclusion lock */
-	QLock	k;			/* Lock for waiting writers */
-	int	readers;		/* Count of readers in lock */
-} RWLock;
-
-extern	int	canrlock(RWLock*);
-extern	int	canwlock(RWLock*);
-extern	void	rlock(RWLock*);
-extern	void	runlock(RWLock*);
-extern	void	wlock(RWLock*);
-extern	void	wunlock(RWLock*);
-
-/*
  * network dialing
  */
 #define NETPATHLEN 40

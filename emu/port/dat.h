@@ -8,6 +8,7 @@ typedef struct Dirtab	Dirtab;
 typedef struct Egrp	Egrp;
 typedef struct Evalue	Evalue;
 typedef struct Fgrp	Fgrp;
+typedef struct Lock Lock;
 typedef struct Mount	Mount;
 typedef struct Mntcache Mntcache;
 typedef struct Mntparam Mntparam;
@@ -18,13 +19,13 @@ typedef struct Mhead	Mhead;
 typedef struct Osenv	Osenv;
 typedef struct Pgrp	Pgrp;
 typedef struct Proc	Proc;
+typedef struct QLock QLock;
 typedef struct Queue	Queue;
 typedef struct Ref	Ref;
 typedef struct Rendez	Rendez;
 typedef struct Rept	Rept;
 typedef struct Rootdata Rootdata;
-/*typedef struct RWlock	RWlock;*/
-typedef struct RWLock	RWlock;
+typedef struct RWlock	RWlock;
 typedef struct Procs	Procs;
 typedef struct Signerkey Signerkey;
 typedef struct Skeyset	Skeyset;
@@ -56,6 +57,30 @@ enum
 	NUMSIZE		= 11,
 	PRINTSIZE	= 256,
 	READSTR		= 1000		/* temporary buffer size for device reads */
+};
+
+/*
+ *  synchronization
+ */
+struct Lock {
+	int	val;
+	int	pid;
+};
+
+struct QLock
+{
+	Lock	use;			/* to access Qlock structure */
+	Proc	*head;			/* next process waiting for object */
+	Proc	*tail;			/* last process waiting for object */
+	int	locked;			/* flag */
+};
+
+struct RWlock
+{
+	Lock	l;			/* Lock modify lock */
+	QLock	x;			/* Mutual exclusion lock */
+	QLock	k;			/* Lock for waiting writers */
+	int	readers;		/* Count of readers in lock */
 };
 
 struct Ref
