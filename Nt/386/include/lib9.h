@@ -30,10 +30,6 @@
 #define isinf(x) (!_finite(x))
 #endif
 
-#ifndef EMU
-typedef struct Proc Proc;
-#endif
-
 /*
  * math module dtoa
  */
@@ -274,22 +270,7 @@ extern	int	isInf(double, int);
 #define	PI	(PIO2+PIO2)
 
 /*
- * Time-of-day
  */
-
-typedef struct Tm Tm;
-struct Tm {
-	int	sec;
-	int	min;
-	int	hour;
-	int	mday;
-	int	mon;
-	int	year;
-	int	wday;
-	int	yday;
-	char	zone[4];
-	int	tzoff;
-};
 extern	vlong	osnsec(void);
 #define	nsec	osnsec
 	
