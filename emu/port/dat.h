@@ -95,17 +95,6 @@ struct Rendez
 	Proc*	p;
 };
 
-struct Rept
-{
-	Lock	l;
-	Rendez	r;
-	void	*o;
-	int	t;
-	int	(*active)(void*);
-	int	(*ck)(void*, int);
-	void	(*f)(void*);	/* called with VM acquire()'d */
-};
-
 /*
  * Access types in namec & channel flags
  */

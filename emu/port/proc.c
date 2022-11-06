@@ -3,6 +3,19 @@
 #include	"error.h"
 #include	"interp.h"
 
+#ifndef USE_REPT
+struct Rept
+{
+	Lock	l;
+	Rendez	r;
+	void	*o;
+	int	t;
+	int	(*active)(void*);
+	int	(*ck)(void*, int);
+	void	(*f)(void*);	/* called with VM acquire()'d */
+};
+#endif
+
 Proc*
 newproc(void)
 {
@@ -153,6 +166,7 @@ osleave(void)
 		error(Eintr);
 }
 
+#ifndef USE_REPT
 void
 rptwakeup(void *o, void *ar)
 {
@@ -237,3 +251,4 @@ rptproc(char *s, int t, void *o, int (*active)(void*), int (*ck)(void*, int), vo
 	kproc(s, rproc, r, KPDUPPG);
 	return r;
 }
+#endif
