@@ -170,8 +170,10 @@ qidtype(char *s, uchar t)
 		*p++ = 'a';
 	if(t & QTEXCL)
 		*p++ = 'l';
+#ifdef QTAUTH
 	if(t & QTAUTH)
 		*p++ = 'A';
+#endif
 	*p = '\0';
 	return s;
 }

@@ -212,8 +212,10 @@ kdup(int old, int new)
 		return -1;
 
 	c.c = fdtochan(up->env->fgrp, old, -1, 0, 1);
+#ifdef QTAUTH
 	if(c.c->qid.type & QTAUTH)
 		error(Eperm);
+#endif
 	fd = new;
 	if(fd != -1) {
 		lock(&f->l);
